@@ -30,6 +30,9 @@ requiresh: there is 4 options:
 abi benim ştandart kütüphanelerim bu.
 	--Shtandard Kazım.
 ```
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/54551308/189661535-ca09ed44-e7b0-47b2-a825-f9f07e1d217b.png" alt="Shtandard Kazım From YouTube Thumbnail"/>
+</p>
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
