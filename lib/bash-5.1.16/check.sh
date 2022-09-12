@@ -1,9 +1,26 @@
 #!/bin/bash
 
 check:have:specialchar() {
-    if ! [[ "${1}" =~ ['!@#$%^&*()_+.,~;£{}?= '] ]]  ; then
-        return 0
+    if [[ "${1}" =~ ['\[!@#$ %^&*()+|?{}"=,;/£½'] ]] ; then
+        return 1
+    elif [[ "${1}" =~ "'" ]] ; then
+        return 1
+    elif [[ "${1}" = *"]"* ]] ; then
+        return 1
     else
+        return 0
+    fi
+}
+
+check:is:online() {
+    if command -v "ping" &> /dev/null ; then
+        if ping -c 1 -q google.com &>/dev/null ; then
+            return 0
+        else
+            return 1
+        fi
+    else
+        echo -e "\t${0##*/}: command: ping not found."
         return 1
     fi
 }
@@ -57,7 +74,7 @@ check:is:root() {
     fi
 }
 
-opshelper:is:arch() {
+check:is:arch() {
     local i="" status="false"
 
     if [[ "${#}" -ge "1" ]] ; then
