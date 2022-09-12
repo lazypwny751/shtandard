@@ -17,8 +17,8 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Define variables:
-if [[ -z "${REQUIRESH_LIBDIR}"]] ; then
-    export REQUIRESH_LIBDIR="/usr/local/lib/bahs-5.1.16"
+if [[ -z "${REQUIRESH_LIBDIR}" ]] ; then
+    export REQUIRESH_LIBDIR="/usr/local/lib/bash-5.1.16"
 fi
 export i="" x="" status=true version="1.0.0" DO="source" OPTARG=()
 
@@ -43,6 +43,11 @@ while [[ "${#}" -gt 0 ]] ; do
         ;;
     esac
 done
+
+# If opt arg is null then show help text.
+if [[ "${#OPTARG[@]}" -le 0 ]] ; then
+    export DO="help"
+fi
 
 # Processing the option:
 case "${DO}" in
@@ -69,7 +74,11 @@ case "${DO}" in
 
         if ! ${status} ; then
             echo "${0##*/}: some libraries couldn't sourced."
-            exit 1
+            if [[ -z "${REQUIRESH_RETURN}" ]] ; then
+                exit 1
+            else
+                return 1
+            fi
         fi
     ;;
     path)
@@ -79,7 +88,25 @@ case "${DO}" in
         echo "${version}"
     ;;
     help)
-        echo "${0##*/}: there is X options:"
+        echo -e "${0##*/}: there is 4 options:
+\t${0##*/} --path, -p
+\t\tit shows library path directories of ${0##*/}.
+
+\t${0##*/} --version, -v
+\t\tit shows current version of ${0##*/}.
+
+\t${0##*/} --help, -h
+\t\tit shows this helper text.
+
+\t${0##*/} <lib> <lib>..
+\t\tyou can source that libraries using with directly 
+\t\ttyping by names and there is no needed filename extension ('.sh')
+\t\tif the file couldn't be sourced then the program will be return
+\t\tnon-zero exit code, also you can set the exit type 'exit' to 'return'
+\t\twith define a variable called by \${REQUIRESH_RETURN} to non-null value.
+
+abi benim ştandart kütüphanelerim bu.
+\t--Shtandard Kazım."
     ;;
     *)
         echo "${0##*/}: there is no option like '${DO}'."
