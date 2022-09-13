@@ -44,8 +44,8 @@ while [[ "${#}" -gt 0 ]] ; do
     esac
 done
 
-# If opt arg is null then show help text.
-if [[ "${#OPTARG[@]}" -le 0 ]] ; then
+# If the process mode on source and the options are null:
+if [[ "${DO}" = "source" ]] && [[ "${#OPTARG[@]}" -le 0 ]] ; then
     export DO="help"
 fi
 
