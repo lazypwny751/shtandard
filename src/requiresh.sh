@@ -18,9 +18,9 @@
 
 # Define variables:
 if [[ -z "${REQUIRESH_LIBDIR}" ]] ; then
-    export REQUIRESH_LIBDIR="/usr/local/lib/bash-5.1.16"
+    export REQUIRESH_LIBDIR="/usr/local/lib/bash-5.1.16:/usr/local/lib/POSIX"
 fi
-export i="" x="" status=true version="1.0.0" DO="source" OPTARG=()
+export i="" x="" status="true" version="1.0.0" DO="source" OPTARG=()
 
 # Parse parameters:
 while [[ "${#}" -gt 0 ]] ; do
@@ -54,22 +54,36 @@ case "${DO}" in
     source)
         export IFS=":"
         for x in ${OPTARG[@]} ; do
+            export isfound="false"
             for i in ${REQUIRESH_LIBDIR} ; do
                 if [[ -f "${i}/${x}.sh" ]] ; then
                     source "${i}/${x}.sh" || {
                         echo "${x}.sh could not sourcing.."
-                        export status=false
+                        export status="false"
                     }
+                    export isfound="true"
+                    break
                 elif [[ -f "${i}/${x}.sh" ]] ; then
                     source "${i}/${x}" || {
                         echo "${x} could not sourcing.."
-                        export status=false
+                        export status="false"
                     }
-                else
-                    echo "${x} doesn't exist."
-                    export status=false
+                    export isfound="true"
+                    break
+                elif [[ -f "${i}" ]] ; then
+                    source "${i}" || {
+                        echo "${x} could not sourcing.."
+                        export status="false"
+                    }
+                    export isfound="true"
+                    break
                 fi
             done
+
+            if ! ${isfound} ; then
+                echo -e "\t${0##*/}: library '${x}' doesn't exist.."
+                export status="false"
+            fi
         done
 
         if ! ${status} ; then
@@ -106,7 +120,7 @@ case "${DO}" in
 \t\twith define a variable called by \${REQUIRESH_RETURN} to non-null value.
 
 abi benim ştandart kütüphanelerim bu.
-\t--Shtandard Kazım."
+\t--Shtandard Kazim."
     ;;
     *)
         echo "${0##*/}: there is no option like '${DO}'."
