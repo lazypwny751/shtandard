@@ -53,7 +53,7 @@ fi
 case "${DO}" in
     source)
         export IFS=":"
-        for x in ${OPTARG[@]} ; do
+        for x in "${OPTARG[@]}" ; do
             export isfound="false"
             for i in ${REQUIRESH_LIBDIR} ; do
                 if [[ -f "${i}/${x}.sh" ]] ; then
@@ -81,13 +81,13 @@ case "${DO}" in
             done
 
             if ! ${isfound} ; then
-                echo -e "\t${0##*/}: library '${x}' doesn't exist.."
+                echo -e "\t${BASH_SOURCE[0]##*/}: library '${x}' doesn't exist.."
                 export status="false"
             fi
         done
 
         if ! ${status} ; then
-            echo "${0##*/}: some libraries couldn't sourced."
+            echo "${BASH_SOURCE[0]##*/}: some libraries couldn't sourced."
             if [[ -z "${REQUIRESH_RETURN}" ]] ; then
                 exit 1
             else
@@ -102,17 +102,17 @@ case "${DO}" in
         echo "${version}"
     ;;
     help)
-        echo -e "${0##*/}: there is 4 options:
-\t${0##*/} --path, -p
-\t\tit shows library path directories of ${0##*/}.
+        echo -e "${BASH_SOURCE[0]##*/}: there is 4 options:
+\t${BASH_SOURCE[0]##*/} --path, -p
+\t\tit shows library path directories of ${BASH_SOURCE[0]##*/}.
 
-\t${0##*/} --version, -v
-\t\tit shows current version of ${0##*/}.
+\t${BASH_SOURCE[0]##*/} --version, -v
+\t\tit shows current version of ${BASH_SOURCE[0]##*/}.
 
-\t${0##*/} --help, -h
+\t${BASH_SOURCE[0]##*/} --help, -h
 \t\tit shows this helper text.
 
-\t${0##*/} <lib> <lib>..
+\t${BASH_SOURCE[0]##*/} <lib> <lib>..
 \t\tyou can source that libraries using with directly 
 \t\ttyping by names and there is no needed filename extension ('.sh')
 \t\tif the file couldn't be sourced then the program will be return
@@ -123,7 +123,7 @@ abi benim ştandart kütüphanelerim bu.
 \t--Shtandard Kazim."
     ;;
     *)
-        echo "${0##*/}: there is no option like '${DO}'."
+        echo "${BASH_SOURCE[0]##*/}: there is no option like '${DO}'."
         exit 1
     ;;
 esac
