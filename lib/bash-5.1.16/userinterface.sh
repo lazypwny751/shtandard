@@ -78,7 +78,7 @@ userinterface:spinner:line() {
 }
 
 userinterface:output() {
-    local text="sample output text from ${0##*/}:${FUNCNAME}" TYPE="success"
+    local text="sample output text from ${0##*/}:${FUNCNAME##*:}" TYPE="success"
     while [[ "${#}" -gt 0 ]] ; do
         case "${1}" in
             --[tT][eE][xX][tT]|-[tT])
@@ -125,7 +125,7 @@ userinterface:output() {
             echo -e "\t${0##*/}: \033[0;34mINFO\033[0m: ${text}\033[0m"
         ;;
         *)
-            echo -e "\t${0##*/}: ${FUNCNAME}: ${TYPE}: ${text}"
+            echo -e "\t${0##*/}: ${FUNCNAME##*:}: ${TYPE}: ${text}"
         ;;
     esac
 }
