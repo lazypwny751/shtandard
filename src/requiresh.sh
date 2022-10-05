@@ -16,6 +16,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+# Requiresh isn't a version manager script, it's must be used successive source with own path.
+
 # Define variables:
 if [[ -z "${REQUIRESH_LIBDIR}" ]] ; then
     export REQUIRESH_LIBDIR="/usr/local/lib/bash-5.1.16:/usr/local/lib/POSIX"
