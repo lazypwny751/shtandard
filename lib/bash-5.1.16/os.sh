@@ -526,7 +526,7 @@ os:check:have() {
             ;;
             --entity)
                 shift
-                while [[ "${#}" -ge 0 ]] ; do
+                while [[ "${#}" -gt 0 ]] ; do
                     if [[ -e "${1}" ]] ; then
                         echo -e "\t${0##*/}: \033[0;31mFATAL\033[0m: ${FUNCNAME##*:}: '${1}' doesn't exist."
                         local status="false"
